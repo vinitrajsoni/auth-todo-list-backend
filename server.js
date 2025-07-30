@@ -17,17 +17,11 @@ mongoose
   .then(() => console.log("MongoDB connected"))
   .catch((err) => console.log("MongoDB error:", err));
 
-app.use("/api/todos", require("./routes/todo"));
+// ✅ Mount auth routes here
+app.use("/api", require("./routes/auth"));
 
-// Dummy auth route (optional, if you want to include login/register)
-app.post("/api/login", (req, res) => {
-  const { email } = req.body;
-  const token = require("jsonwebtoken").sign(
-    { id: email },
-    process.env.JWT_SECRET
-  );
-  res.json({ token });
-});
+// Mount todo routes
+app.use("/api/todos", require("./routes/todo"));
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
